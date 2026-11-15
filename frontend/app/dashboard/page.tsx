@@ -3,6 +3,7 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import CapybaraMascot from "@/components/CapybaraMascot";
 
 const API_URL =
   process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
@@ -509,7 +510,226 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* ACCOUNT MANAGEMENT */}
+        {/* CAPYBARA ARCADE */}
+        <div
+          className="dashboard-glass-card capybara-arcade-card"
+          style={{
+            width: "100%",
+            maxWidth: "1000px",
+            padding: "32px",
+            boxSizing: "border-box",
+            borderRadius: "24px",
+            color: "#eee5d8",
+            position: "relative",
+            overflow: "hidden",
+          }}
+        >
+          {/* CAPYBARA MASCOT */}
+          <div
+            className="arcade-capybara"
+            style={{
+              position: "absolute",
+              right: "30px",
+              top: "10px",
+              width: "200px",
+              height: "200px",
+              zIndex: 2,
+              pointerEvents: "none",
+            }}
+          >
+            <CapybaraMascot mood="curious" />
+          </div>
+
+          {/* ARCADE HEADER */}
+          <span className="eyebrow">A LITTLE BREAK?</span>
+
+          <h2 style={{ fontSize: "26px", marginTop: "12px" }}>
+            Welcome to Capybara Arcade.
+          </h2>
+
+          <p
+            style={{
+              fontSize: "13px",
+              opacity: 0.65,
+              marginTop: "8px",
+              marginBottom: "24px",
+              maxWidth: "550px",
+              lineHeight: 1.7,
+            }}
+          >
+            Take a break from managing your account and enjoy
+            a little game with our favorite capybara!
+          </p>
+
+          {/* GAME LIST */}
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "16px",
+            }}
+          >
+            {/* CAPYBARA SNAKE */}
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                flexWrap: "wrap",
+                gap: "20px",
+                padding: "20px",
+                borderRadius: "18px",
+                background: "rgba(255,255,255,0.06)",
+                border: "1px solid rgba(238,229,216,0.12)",
+                backdropFilter: "blur(20px)",
+              }}
+            >
+              {/* IMAGE AND GAME DETAILS */}
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "18px",
+                  flex: "1 1 300px",
+                  minWidth: 0,
+                }}
+              >
+                <img
+                  src="/images/SnakeCapy.png"
+                  alt="Capybara Snake"
+                  style={{
+                    width: "110px",
+                    height: "90px",
+                    objectFit: "cover",
+                    borderRadius: "13px",
+                    flexShrink: 0,
+                    border: "1px solid rgba(238,229,216,0.15)",
+                  }}
+                />
+
+                <div style={{ minWidth: 0 }}>
+                  <span
+                    style={{
+                      fontSize: "10px",
+                      letterSpacing: "2px",
+                      opacity: 0.5,
+                    }}
+                  >
+                    FEATURED GAME
+                  </span>
+
+                  <h3 style={{ fontSize: "21px", marginTop: "8px" }}>
+                    Capybara Snake 🍊
+                  </h3>
+
+                  <p
+                    style={{
+                      fontSize: "12px",
+                      opacity: 0.6,
+                      marginTop: "6px",
+                    }}
+                  >
+                    Eat, grow, and climb the leaderboard!
+                  </p>
+                </div>
+              </div>
+
+              <button
+                type="button"
+                className="dashboard-action-button"
+                onClick={() => router.push("/arcade")}
+                style={{
+                  ...actionButton,
+                  padding: "14px 25px",
+                  backdropFilter: "blur(20px)",
+                }}
+              >
+                PLAY NOW ↗
+              </button>
+            </div>
+
+            {/* FLAPPY-BARA */}
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                flexWrap: "wrap",
+                gap: "20px",
+                padding: "20px",
+                borderRadius: "18px",
+                background: "rgba(255,255,255,0.06)",
+                border: "1px solid rgba(238,229,216,0.12)",
+                backdropFilter: "blur(20px)",
+              }}
+            >
+              {/* IMAGE AND GAME DETAILS */}
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "18px",
+                  flex: "1 1 300px",
+                  minWidth: 0,
+                }}
+              >
+                <img
+                  src="/images/flappy-bara.png"
+                  alt="Flappy-Bara"
+                  style={{
+                    width: "110px",
+                    height: "90px",
+                    objectFit: "cover",
+                    borderRadius: "13px",
+                    flexShrink: 0,
+                    border: "1px solid rgba(238,229,216,0.15)",
+                  }}
+                />
+
+                <div style={{ minWidth: 0 }}>
+                  <span
+                    style={{
+                      fontSize: "10px",
+                      letterSpacing: "2px",
+                      opacity: 0.5,
+                    }}
+                  >
+                    ARCADE GAME 02
+                  </span>
+
+                  <h3 style={{ fontSize: "21px", marginTop: "8px" }}>
+                    Flappy-Bara 🪽
+                  </h3>
+
+                  <p
+                    style={{
+                      fontSize: "12px",
+                      opacity: 0.6,
+                      marginTop: "6px",
+                    }}
+                  >
+                    Fly through the pipes and beat your high score!
+                  </p>
+                </div>
+              </div>
+
+              <button
+                type="button"
+                className="dashboard-action-button"
+                onClick={() => router.push("/arcade/flappy-bara")}
+                style={{
+                  ...actionButton,
+                  padding: "14px 25px",
+                  backdropFilter: "blur(20px)",
+                }}
+              >
+                PLAY NOW ↗
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* ACCOUNT SETTINGS */}
         <div
           className="dashboard-glass-card"
           style={{

@@ -1648,8 +1648,302 @@ a {
   .dashboard-edit-expand-inner {
     transition: none !important;
   }
+  
+}
+.arcade-capybara {
+  overflow: hidden;
+  pointer-events: none;
 }
 
+.arcade-capybara .capybara-mascot {
+  width: 200%;
+  height: 200%;
+}
 
+.arcade-capybara .capybara-scene {
+  height: 110px !important;
+}
+
+.arcade-capybara .capybara-message {
+  display: none !important;
+}
+
+/* =========================================
+   CAPYBARA ARCADE - LEVEL ANNOUNCEMENT
+========================================= */
+
+.arcade-level-flash {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background: rgba(22, 48, 24, 0.82);
+  backdrop-filter: blur(8px);
+  animation: levelFlashOverlay 1.8s ease both;
+}
+
+.level-flash-content {
+  padding: 25px;
+  color: #fff4d8;
+  animation: levelFlashText 1.8s ease both;
+}
+
+.level-flash-content span {
+  font-size: 11px;
+  letter-spacing: 4px;
+  color: #f6d982;
+}
+
+.level-flash-content h2 {
+  font-size: clamp(48px, 9vw, 82px);
+  font-weight: 900;
+  letter-spacing: 3px;
+  margin: 12px 0;
+  text-shadow: 0 5px 25px rgba(0, 0, 0, 0.35);
+}
+
+.level-flash-content p {
+  font-size: 11px;
+  letter-spacing: 2px;
+  opacity: 0.8;
+}
+
+@keyframes levelFlashOverlay {
+  0% {
+    opacity: 0;
+  }
+
+  15% {
+    opacity: 1;
+  }
+
+  75% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes levelFlashText {
+  0% {
+    opacity: 0;
+    transform: scale(0.65);
+  }
+
+  20% {
+    opacity: 1;
+    transform: scale(1.12);
+  }
+
+  35% {
+    transform: scale(1);
+  }
+
+  80% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+}
+
+/* =========================================
+   CAPYBARA ARCADE - GAME OVER
+========================================= */
+
+.arcade-game-over {
+  position: absolute;
+  inset: 0;
+  z-index: 30;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 20px;
+  overflow-y: auto;
+  background: rgba(22, 15, 12, 0.86);
+  backdrop-filter: blur(12px);
+  animation: gameOverAppear 0.4s ease both;
+}
+
+.game-over-content {
+  width: 100%;
+  max-width: 520px;
+  color: #eee5d8;
+  animation: gameOverContent 0.5s ease both;
+}
+
+.game-over-icon {
+  font-size: 55px;
+  margin-bottom: 8px;
+  filter: drop-shadow(0 5px 12px rgba(0, 0, 0, 0.4));
+}
+
+.game-over-eyebrow {
+  font-size: 10px;
+  letter-spacing: 4px;
+  opacity: 0.6;
+}
+
+.game-over-content h2 {
+  font-size: clamp(30px, 5vw, 43px);
+  font-weight: 900;
+  margin-top: 8px;
+  letter-spacing: 2px;
+}
+
+.game-over-description {
+  font-size: 13px;
+  opacity: 0.7;
+  margin-top: 8px;
+}
+
+.game-over-stats {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.game-over-stats div {
+  min-width: 105px;
+  padding: 16px 18px;
+  border-radius: 17px;
+  background: rgba(255, 255, 255, 0.09);
+  border: 1px solid rgba(238, 229, 216, 0.13);
+}
+
+.game-over-stats span {
+  display: block;
+  font-size: 9px;
+  opacity: 0.55;
+  letter-spacing: 1px;
+}
+
+.game-over-stats strong {
+  display: block;
+  font-size: 27px;
+  margin-top: 7px;
+}
+
+.game-over-oranges {
+  font-size: 11px;
+  opacity: 0.6;
+  margin-top: 17px;
+}
+
+.game-over-saving {
+  font-size: 11px;
+  margin-top: 10px;
+  opacity: 0.7;
+}
+
+.game-over-actions {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 23px;
+}
+
+.game-over-actions button {
+  padding: 14px 25px;
+  border-radius: 25px;
+  border: 1px solid rgba(238, 229, 216, 0.3);
+  background: rgba(255, 255, 255, 0.1);
+  color: #eee5d8;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.game-over-actions button:first-child {
+  background: rgba(203, 187, 166, 0.28);
+}
+
+@keyframes gameOverAppear {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes gameOverContent {
+  from {
+    opacity: 0;
+    transform: translateY(15px) scale(0.96);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (max-width: 480px) {
+  .game-over-stats {
+    gap: 7px;
+  }
+
+  .game-over-stats div {
+    min-width: 85px;
+    padding: 12px 10px;
+  }
+
+  .game-over-stats strong {
+    font-size: 23px;
+  }
+}
+/* MOBILE SNAKE D-PAD */
+
+.mobile-dpad {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .mobile-dpad {
+    display: grid;
+    grid-template-columns: repeat(3, 65px);
+    grid-template-rows: repeat(2, 58px);
+    justify-content: center;
+    gap: 9px;
+    margin: 22px auto;
+    touch-action: none;
+  }
+
+  .mobile-dpad button {
+    border: 1px solid rgba(238, 229, 216, 0.3);
+    border-radius: 15px;
+    background: rgba(203, 187, 166, 0.2);
+    color: #eee5d8;
+    font-size: 23px;
+    font-weight: 800;
+    cursor: pointer;
+    touch-action: none;
+    -webkit-tap-highlight-color: transparent;
+    transition: background 0.15s, transform 0.15s;
+  }
+
+  .mobile-dpad button:active:not(:disabled) {
+    background: rgba(203, 187, 166, 0.5);
+    transform: scale(0.92);
+  }
+
+  .mobile-dpad button:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+}
 
 
