@@ -3,6 +3,7 @@ import {
   Controller,
   Get,
   Put,
+  Post,
   Delete,
   UseGuards,
   Req,
@@ -97,6 +98,42 @@ export class UsersController {
     return this.usersService.adminDeleteUser(
       id,
       req.user.userId,
+    );
+  }
+
+  // CAPYBARA SNAKE LEADERBOARD
+
+  @Get('leaderboard')
+  getLeaderboard() {
+    return this.usersService.getLeaderboard();
+  }
+
+  @Post('leaderboard')
+  submitScore(
+    @Req() req: { user: { userId: number } },
+    @Body('score') score: number,
+  ) {
+    return this.usersService.submitScore(
+      req.user.userId,
+      score,
+    );
+  }
+
+  // FLAPPY-BARA LEADERBOARD
+
+  @Get('flappy-bara/leaderboard')
+  getFlappyBaraLeaderboard() {
+    return this.usersService.getFlappyBaraLeaderboard();
+  }
+
+  @Post('flappy-bara/leaderboard')
+  submitFlappyBaraScore(
+    @Req() req: { user: { userId: number } },
+    @Body('score') score: number,
+  ) {
+    return this.usersService.submitFlappyBaraScore(
+      req.user.userId,
+      score,
     );
   }
 }

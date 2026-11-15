@@ -12,12 +12,20 @@ import * as bcrypt from 'bcrypt';
 import { User } from './user.entity.js';
 import { UpdateUserDto } from './dto/update-user.dto.js';
 import { AdminUpdateUserDto } from './dto/admin-update-user.dto.js';
+import { CapybaraScore } from './capybara-score.entity.js';
+import { FlappyBaraScore } from './flappy-bara-score.entity.js';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
+
+    @InjectRepository(CapybaraScore)
+    private readonly scoreRepository: Repository<CapybaraScore>,
+
+    @InjectRepository(FlappyBaraScore)
+    private readonly flappyBaraScoreRepository: Repository<FlappyBaraScore>,
   ) {}
 
   findByEmail(email: string): Promise<User | null> {
@@ -242,6 +250,110 @@ export class UsersService {
 
     return {
       message: 'Account deleted successfully',
+    };
+  }
+
+  // CAPYBARA SNAKE LEADERBOARD
+
+  async getLeaderboard() {
+    return this.scoreRepository
+      .createQueryBuilder('score')
+      .leftJoinAndSelect('score.user', 'user')
+      .select([
+        'score.id',
+        'score.highScore',
+        'score.updatedAt',
+        'user.id',
+        'user.name',
+        'user.username',
+      ])
+      .orderBy('score.highScore', 'DESC')
+      .addOrderBy('score.updatedAt', 'ASC')
+      .limit(10)
+      .getMany();
+  }
+
+  async submitScore(userId: number, score: number) {
+    if (
+      !Number.isSafeInteger(score) ||
+      score < 0 ||
+      score > 1000000
+    ) {
+      throw new BadRequestException('Invalid game score');
+    }
+
+    let record = await this.scoreRepository.findOne({
+      where: {
+        user: { id: userId },
+      },
+    });
+
+    if (!record) {
+      record = this.scoreRepository.create({
+        user: { id: userId },
+        highScore: score,
+      });
+    } else if (score > record.highScore) {
+      record.highScore = score;
+    }
+
+    const saved = await this.scoreRepository.save(record);
+
+    return {
+      message: 'Score submitted successfully',
+      highScore: saved.highScore,
+    };
+  }
+
+  // FLAPPY-BARA LEADERBOARD
+
+  async getFlappyBaraLeaderboard() {
+    return this.flappyBaraScoreRepository
+      .createQueryBuilder('score')
+      .leftJoinAndSelect('score.user', 'user')
+      .select([
+        'score.id',
+        'score.highScore',
+        'score.updatedAt',
+        'user.id',
+        'user.name',
+        'user.username',
+      ])
+      .orderBy('score.highScore', 'DESC')
+      .addOrderBy('score.updatedAt', 'ASC')
+      .limit(10)
+      .getMany();
+  }
+
+  async submitFlappyBaraScore(userId: number, score: number) {
+    if (
+      !Number.isSafeInteger(score) ||
+      score < 0 ||
+      score > 1000000
+    ) {
+      throw new BadRequestException('Invalid game score');
+    }
+
+    let record = await this.flappyBaraScoreRepository.findOne({
+      where: {
+        user: { id: userId },
+      },
+    });
+
+    if (!record) {
+      record = this.flappyBaraScoreRepository.create({
+        user: { id: userId },
+        highScore: score,
+      });
+    } else if (score > record.highScore) {
+      record.highScore = score;
+    }
+
+    const saved = await this.flappyBaraScoreRepository.save(record);
+
+    return {
+      message: 'Flappy-Bara score submitted successfully',
+      highScore: saved.highScore,
     };
   }
 }
