@@ -45,7 +45,7 @@ export default function AdminDashboard() {
       const token = getToken();
 
       if (!token) {
-        router.replace("/login");
+        router.replace("/");
         return;
       }
 
