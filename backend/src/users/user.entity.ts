@@ -28,6 +28,13 @@ export class User {
   @Column()
   password: string;
 
+  @Column({
+    type: 'varchar',
+    length: 20,
+    default: 'user',
+  })
+  role: 'admin' | 'user';
+
   @CreateDateColumn()
   createdAt: Date;
 }

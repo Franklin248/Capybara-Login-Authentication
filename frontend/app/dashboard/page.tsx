@@ -12,6 +12,7 @@ type User = {
   name: string;
   username: string;
   email: string | null;
+  role: "admin" | "user";
   createdAt?: string;
 };
 
@@ -202,7 +203,11 @@ export default function Dashboard() {
         throw new Error(data.message || "Profile update failed.");
       }
 
-      setUser(data.user);
+      setUser((currentUser) => ({
+        ...data.user,
+        role: currentUser?.role || "user",
+      }));
+
       setName(data.user.name);
       setUsername(data.user.username);
       setEmail(data.user.email || "");
@@ -355,10 +360,11 @@ export default function Dashboard() {
       </main>
     );
   }
+
   const displayName =
-  user.username === "fimperial"
-    ? "Sir Fritz"
-    : user.name.split(" ")[0];
+    user.username === "fimperial"
+      ? "Sir Fritz"
+      : user.name.split(" ")[0];
 
   return (
     <main className="auth-page dashboard-page">
@@ -421,6 +427,21 @@ export default function Dashboard() {
               <p className="login-description">
                 You're signed in and ready to go.
               </p>
+
+              {user.role === "admin" && (
+                <button
+                  type="button"
+                  className="dashboard-action-button"
+                  onClick={() => router.push("/admin")}
+                  style={{
+                    ...actionButton,
+                    marginTop: "22px",
+                    backdropFilter: "blur(20px)",
+                  }}
+                >
+                  ADMIN PANEL ↗
+                </button>
+              )}
 
               <div
                 style={{

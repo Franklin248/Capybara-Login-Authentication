@@ -11,6 +11,7 @@ import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { User } from './user.entity.js';
 import { UpdateUserDto } from './dto/update-user.dto.js';
+import { AdminUpdateUserDto } from './dto/admin-update-user.dto.js';
 
 @Injectable()
 export class UsersService {
@@ -48,6 +49,7 @@ export class UsersService {
       username,
       email: email || null,
       password,
+      role: 'user',
     });
 
     return this.userRepository.save(user);
@@ -66,7 +68,6 @@ export class UsersService {
 
     if (dto.username !== undefined) {
       const username = dto.username.trim().toLowerCase();
-
       const existingUsername = await this.findByUsername(username);
 
       if (existingUsername && existingUsername.id !== id) {
@@ -136,6 +137,105 @@ export class UsersService {
 
     if (!isPasswordValid) {
       throw new UnauthorizedException('Password is incorrect');
+    }
+
+    await this.userRepository.remove(user);
+
+    return {
+      message: 'Account deleted successfully',
+    };
+  }
+
+  async findAllUsers() {
+    return this.userRepository.find({
+      select: {
+        id: true,
+        name: true,
+        username: true,
+        email: true,
+        role: true,
+        createdAt: true,
+      },
+      order: {
+        id: 'ASC',
+      },
+    });
+  }
+
+  async adminUpdateUser(
+    id: number,
+    dto: AdminUpdateUserDto,
+  ) {
+    const user = await this.findById(id);
+
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    if (dto.name !== undefined) {
+      user.name = dto.name.trim();
+    }
+
+    if (dto.username !== undefined) {
+      const username = dto.username.trim().toLowerCase();
+      const existingUsername = await this.findByUsername(username);
+
+      if (existingUsername && existingUsername.id !== id) {
+        throw new ConflictException('Username is already taken');
+      }
+
+      user.username = username;
+    }
+
+    if (dto.email !== undefined) {
+      const email = dto.email?.trim().toLowerCase() || null;
+
+      if (email) {
+        const existingEmail = await this.findByEmail(email);
+
+        if (existingEmail && existingEmail.id !== id) {
+          throw new ConflictException('Email is already registered');
+        }
+      }
+
+      user.email = email;
+    }
+
+    if (dto.newPassword !== undefined) {
+      user.password = await bcrypt.hash(dto.newPassword, 10);
+    }
+
+    const updatedUser = await this.userRepository.save(user);
+
+    return {
+      message: 'Account updated successfully',
+      user: {
+        id: updatedUser.id,
+        name: updatedUser.name,
+        username: updatedUser.username,
+        email: updatedUser.email,
+        role: updatedUser.role,
+      },
+    };
+  }
+
+  async adminDeleteUser(id: number, adminId: number) {
+    if (id === adminId) {
+      throw new BadRequestException(
+        'You cannot delete your own account here',
+      );
+    }
+
+    const user = await this.findById(id);
+
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    if (user.role === 'admin') {
+      throw new BadRequestException(
+        'Admin accounts cannot be deleted through this action',
+      );
     }
 
     await this.userRepository.remove(user);
