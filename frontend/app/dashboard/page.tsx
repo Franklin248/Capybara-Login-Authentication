@@ -355,6 +355,10 @@ export default function Dashboard() {
       </main>
     );
   }
+  const displayName =
+  user.username === "fimperial"
+    ? "Sir Fritz"
+    : user.name.split(" ")[0];
 
   return (
     <main className="auth-page dashboard-page">
@@ -411,7 +415,7 @@ export default function Dashboard() {
               <span className="eyebrow">YOUR PERSONAL SPACE</span>
 
               <h1 style={{ marginBottom: "12px" }}>
-                Welcome, {user.name.split(" ")[0]}.
+                Welcome, {displayName}!
               </h1>
 
               <p className="login-description">
