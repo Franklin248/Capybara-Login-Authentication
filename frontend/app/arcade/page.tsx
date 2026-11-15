@@ -1431,6 +1431,56 @@ export default function ArcadePage() {
           </div>
         </div>
 
+
+{/* MOBILE SNAKE CONTROLS */}
+
+<div className="mobile-snake-controls">
+  <p className="mobile-controls-label">TAP TO MOVE</p>
+
+  <div className="snake-dpad">
+    <button
+      type="button"
+      aria-label="Move up"
+      disabled={!running || levelFlash}
+      onClick={() => changeDirection({ x: 0, z: -1 })}
+      className="snake-control-button up"
+    >
+      ▲
+    </button>
+
+    <button
+      type="button"
+      aria-label="Move left"
+      disabled={!running || levelFlash}
+      onClick={() => changeDirection({ x: -1, z: 0 })}
+      className="snake-control-button left"
+    >
+      ◀
+    </button>
+
+    <button
+      type="button"
+      aria-label="Move down"
+      disabled={!running || levelFlash}
+      onClick={() => changeDirection({ x: 0, z: 1 })}
+      className="snake-control-button down"
+    >
+      ▼
+    </button>
+
+    <button
+      type="button"
+      aria-label="Move right"
+      disabled={!running || levelFlash}
+      onClick={() => changeDirection({ x: 1, z: 0 })}
+      className="snake-control-button right"
+    >
+      ▶
+    </button>
+  </div>
+</div>
+
+
         {/* GAME CONTROLS */}
 
         <div
@@ -1658,6 +1708,81 @@ export default function ArcadePage() {
           STAY CHILL. STAY CAPY. 🧡
         </p>
       </section>
+
+<style jsx>{`
+  .mobile-snake-controls {
+    display: none;
+  }
+
+  @media (max-width: 768px) {
+    .mobile-snake-controls {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      margin: 22px 0 12px;
+    }
+
+    .mobile-controls-label {
+      font-size: 11px;
+      letter-spacing: 3px;
+      opacity: 0.6;
+      font-weight: 600;
+    }
+
+    .snake-dpad {
+      display: grid;
+      grid-template-columns: repeat(3, 64px);
+      grid-template-rows: repeat(2, 58px);
+      gap: 8px;
+    }
+
+    .snake-control-button {
+      width: 64px;
+      height: 58px;
+      border-radius: 17px;
+      border: 1px solid rgba(238, 229, 216, 0.3);
+      background: rgba(203, 187, 166, 0.2);
+      color: #eee5d8;
+      font-size: 23px;
+      font-weight: 700;
+      cursor: pointer;
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+
+    .snake-control-button:active:not(:disabled) {
+      background: rgba(203, 187, 166, 0.45);
+      transform: scale(0.94);
+    }
+
+    .snake-control-button:disabled {
+      opacity: 0.35;
+    }
+
+    .up {
+      grid-column: 2;
+      grid-row: 1;
+    }
+
+    .left {
+      grid-column: 1;
+      grid-row: 2;
+    }
+
+    .down {
+      grid-column: 2;
+      grid-row: 2;
+    }
+
+    .right {
+      grid-column: 3;
+      grid-row: 2;
+    }
+  }
+`}</style>
+
     </main>
   );
 }
