@@ -59,7 +59,7 @@ export default function AdminDashboard() {
       );
 
       if (!profileResponse.ok) {
-        router.replace("/login");
+        router.replace("/");
         return;
       }
 
@@ -238,7 +238,7 @@ export default function AdminDashboard() {
   const logout = () => {
     localStorage.removeItem("access_token");
     sessionStorage.removeItem("access_token");
-    router.replace("/login");
+    router.replace("/");
   };
 
   const adminCount = users.filter(
