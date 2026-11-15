@@ -1714,7 +1714,7 @@ export default function ArcadePage() {
     display: none;
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 768px), (max-height: 600px) and (pointer: coarse) {
     .mobile-snake-controls {
       display: flex;
       flex-direction: column;
